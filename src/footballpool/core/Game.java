@@ -12,7 +12,7 @@ public class Game
 {
     private Team home, away;
     private boolean isOver = false;
-    private int week;
+    final int week;
     
     
     public Game(int weekNumber, Team home, Team away)
@@ -22,6 +22,19 @@ public class Game
         this.away = away;
     }
     
+    
+    public int getWeek()
+    {return week;}
+    
+    /**
+     * Tells if game is completed.
+     * @return True if the game is over.
+     */
+    public boolean gameOver()
+    {return isOver;}
+    
+    public void gameIsOver(boolean isOver)
+    {this.isOver = isOver;}
     
     public Team getHome()
     {return home;}

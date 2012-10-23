@@ -22,6 +22,8 @@ public class Parser
     private Document webDoc;
     private static final boolean debug = true;
     private int weekNumber = 0;
+    private static final int parseDelay = 250;
+    
     
     /* TODO: grep for the current week and use that as default: "nfl.global.scores.week	= "REG7";" */
     public Parser(int weekNumber) throws IOException
@@ -34,7 +36,7 @@ public class Parser
     static public ArrayList<Game> getRegularSeason() throws IOException
     {
         ArrayList<Game> games = new ArrayList();
-        
+    
         Parser parser;
         for (int ct = 1; ct < 18; ct++)
         {
@@ -43,7 +45,7 @@ public class Parser
             
             // don't hammer the site
             try
-            {Thread.sleep(1000);}
+            {Thread.sleep(parseDelay);}
             catch(InterruptedException ie)
             {ie.printStackTrace();}
         }
@@ -78,11 +80,12 @@ public class Parser
             }
             
             games.add(new Game(weekNumber, teams[0], teams[1]));
+            games.get(games.size() - 1).gameIsOver(isGameOver(element));
         }
         
         return games;
     }
-    
+        
     /* scorebox-wrapper -> team-wrapper -> [team-name, total-score] */
     private int getScore(Element teamWrapper)
     {
@@ -95,10 +98,14 @@ public class Parser
     
     private Team getTeam(Element teamWrapper)
     {return new Team(teamWrapper.getElementsByClass("team-name").text());}
+    
+    private boolean isGameOver(Element scoreboxWrapper)
+    {
+        return scoreboxWrapper.getElementsByClass("time-left").text().equals("FINAL");
+    }
+
+    
         
-    
-    
-    
     private static void debug(String output)
     {
         System.out.println("DEBUG : " + output + "------------------------\n");
