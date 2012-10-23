@@ -31,6 +31,26 @@ public class Parser
         webDoc = Jsoup.connect(website).get();
     }
     
+    static public ArrayList<Game> getRegularSeason() throws IOException
+    {
+        ArrayList<Game> games = new ArrayList();
+        
+        Parser parser;
+        for (int ct = 1; ct < 18; ct++)
+        {
+            parser = new Parser(ct);
+            games.addAll(parser.getGames());
+            
+            // don't hammer the site
+            try
+            {Thread.sleep(1000);}
+            catch(InterruptedException ie)
+            {ie.printStackTrace();}
+        }
+        
+        return games;
+    }
+    
     
     public void printDoc()
     {
