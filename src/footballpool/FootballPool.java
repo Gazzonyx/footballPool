@@ -16,27 +16,11 @@ public class FootballPool
     
     public FootballPool()
     {
-        Parser nflParser;
-        
         try
-            {
-                for (int ct = 1; ct <= week; ct++)
-                {
-                    nflParser = new Parser(ct);
-
-                    for (Game game : nflParser.getGames())
-                    {
-                        printLine();
-                        System.out.println(game);
-                        printScore(ct, game.getHome());
-                        printScore(ct, game.getAway());
-                        System.out.println("Winner : " + game.getWinner());
-                    }
-                    
-                    // Try not to tick off nfl.com too much for scraping
-                    Thread.sleep(1000);
-                }
-            }
+        {
+            for (Game game : Parser.getRegularSeason())
+                printGame(game);
+        }
         catch(Exception e)
             {e.printStackTrace();}
     }
@@ -49,6 +33,19 @@ public class FootballPool
     
     
     
+    private static void printGame(Game game)
+    {
+        printLine();
+        System.out.println(game);
+        
+        int week = game.getWeek();
+        printScore(week, game.getHome());
+        printScore(week, game.getAway());
+        
+        Team winner = game.getWinner();
+        if (!winner.name.equals("Tie") && game.gameOver())
+            System.out.println("Winner : " + winner);
+    }
     
     private static void printScore(int week, Team team)
     {
