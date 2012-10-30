@@ -46,7 +46,7 @@ public class Team
     {
      if (! (team instanceof Team))
          return false;
-     return ((Team)team).equals(name);
+     return ((Team)team).name.equals(name);
     }
     
     @Override
