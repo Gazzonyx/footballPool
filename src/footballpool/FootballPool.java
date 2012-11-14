@@ -43,8 +43,13 @@ public class FootballPool
         printScore(week, game.getAway());
         
         Team winner = game.getWinner();
-        if (!winner.name.equals("Tie") && game.gameOver())
+        if (!game.gameOver())
+            return;
+        
+        if (!winner.name.equals("Tie"))
             System.out.println("Winner : " + winner);
+        else
+            System.out.println("Ended in tie");
     }
     
     private static void printScore(int week, Team team)
