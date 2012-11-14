@@ -37,11 +37,12 @@ public class Parser
     static public ArrayList<Game> getRegularSeason() throws IOException
     {
         ArrayList<Game> games = new ArrayList();
-    
+        int lastRegularWeekNumber = 18;
+        
         Parser parser;
         ArrayList<Team> teams = Team.getAllTeams();
         
-        for (int ct = 1; ct < 18; ct++)
+        for (int ct = 1; ct < lastRegularWeekNumber; ct++)
         {
             parser = new Parser(ct);
             games.addAll(parser.getGames(teams));
