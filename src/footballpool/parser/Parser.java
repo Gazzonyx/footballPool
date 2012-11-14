@@ -8,6 +8,7 @@ import footballpool.core.Game;
 import footballpool.core.Team;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,10 +39,12 @@ public class Parser
         ArrayList<Game> games = new ArrayList();
     
         Parser parser;
+        ArrayList<Team> teams = Team.getAllTeams();
+        
         for (int ct = 1; ct < 18; ct++)
         {
             parser = new Parser(ct);
-            games.addAll(parser.getGames());
+            games.addAll(parser.getGames(teams));
             
             // don't hammer the site
             try
@@ -60,26 +63,31 @@ public class Parser
             System.err.println(element);
     }
     
-    public ArrayList<Game> getGames()
+    public ArrayList<Game> getGames(ArrayList<Team> teams)
     {
         ArrayList<Game> games = new ArrayList(16);
+        HashMap<String, Team> teamMap = new HashMap(teams.size());
         
-        Team[] teams = new Team[2];
-        Team team;
+        // Just for easy lookup.
+        for (Team team : teams)
+            teamMap.put(team.name, team);
+        
+        Team[] gameTeams = new Team[2];
+        Team tempTeam;
         int runNumber = 1;
         
         for (Element element : webDoc.getElementsByClass("scorebox-wrapper"))
         {
             for (Element teamWrapper : element.getElementsByClass("team-wrapper"))
             {
-                team = getTeam(teamWrapper);
-                team.setScore(weekNumber, getScore(teamWrapper));
+                tempTeam = teamMap.get(getTeamName(teamWrapper));
+                tempTeam.setScore(weekNumber, getScore(teamWrapper));
                 
-                teams[runNumber % 2] = team;
+                gameTeams[runNumber % 2] = tempTeam;
                 runNumber++;
             }
             
-            games.add(new Game(weekNumber, teams[0], teams[1]));
+            games.add(new Game(weekNumber, gameTeams[0], gameTeams[1]));
             games.get(games.size() - 1).gameIsOver(isGameOver(element));
         }
         
@@ -96,8 +104,13 @@ public class Parser
         {return 0;}
     }
     
-    private Team getTeam(Element teamWrapper)
-    {return new Team(teamWrapper.getElementsByClass("team-name").text());}
+    /**
+     * Return the team name from a team wrapper Element.
+     * @param teamWrapper An Element containing a single team (team-wrapper Element).
+     * @return The team name (ie, Colts) for the team in the Element.
+     */
+    private String getTeamName(Element teamWrapper)
+    {return teamWrapper.getElementsByClass("team-name").text();}
     
     private boolean isGameOver(Element scoreboxWrapper)
     {
