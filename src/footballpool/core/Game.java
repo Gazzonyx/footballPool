@@ -3,6 +3,9 @@
  */
 package footballpool.core;
 
+import footballpool.Conference;
+import footballpool.Division;
+
 /**
  *
  * @author scottl
@@ -53,7 +56,7 @@ public class Game
         
         // Well, it's better than return null or the wrong Team...
         if (homeScore == awayScore)
-            return new Team("Tie");
+            return new Team("Tie", Conference.AFC, Division.EAST);
         
         return (homeScore > awayScore ? home : away);
     }
