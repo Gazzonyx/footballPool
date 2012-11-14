@@ -74,7 +74,7 @@ public class Parser
         
         Team[] gameTeams = new Team[2];
         Team tempTeam;
-        int runNumber = 1;
+        int runNumber = 0;
         
         for (Element element : webDoc.getElementsByClass("scorebox-wrapper"))
         {
