@@ -112,6 +112,11 @@ public class Parser
     private String getTeamName(Element teamWrapper)
     {return teamWrapper.getElementsByClass("team-name").text();}
     
+    /**
+     * Tells if the game in a scorebox-wrapper Element is over or not.
+     * @param scoreboxWrapper The Element that contains a scorebox-wrapper for a game.
+     * @return True if the game score is final.  False otherwise.
+     */
     private boolean isGameOver(Element scoreboxWrapper)
     {
         return scoreboxWrapper.getElementsByClass("time-left").text().equals("FINAL");
