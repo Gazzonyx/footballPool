@@ -24,25 +24,27 @@ public class Parser
     private static final boolean debug = true;
     private int weekNumber = 0;
     private static final int parseDelay = 250;
+    private static final int seasonYear = 2012;
+    private static final int numTeams = 16;
+    private static final int lastRegularWeekNumber = 17;
     
     
     /* TODO: grep for the current week and use that as default: "nfl.global.scores.week	= "REG7";" */
     public Parser(int weekNumber) throws IOException
     {
         this.weekNumber = weekNumber;
-        website = "http://nfl.com/scores/2012/REG" + weekNumber;
+        website = "http://nfl.com/scores/" + seasonYear + "/REG" + weekNumber;
         webDoc = Jsoup.connect(website).get();
     }
     
     static public ArrayList<Game> getRegularSeason() throws IOException
     {
-        ArrayList<Game> games = new ArrayList();
-        int lastRegularWeekNumber = 18;
+        ArrayList<Game> games = new ArrayList(lastRegularWeekNumber);
         
         Parser parser;
         ArrayList<Team> teams = Team.getAllTeams();
         
-        for (int ct = 1; ct < lastRegularWeekNumber; ct++)
+        for (int ct = 1; ct <= lastRegularWeekNumber; ct++)
         {
             parser = new Parser(ct);
             games.addAll(parser.getGames(teams));
@@ -66,7 +68,7 @@ public class Parser
     
     public ArrayList<Game> getGames(ArrayList<Team> teams)
     {
-        ArrayList<Game> games = new ArrayList(16);
+        ArrayList<Game> games = new ArrayList(numTeams);
         HashMap<String, Team> teamMap = new HashMap(teams.size());
         
         // Just for easy lookup.
