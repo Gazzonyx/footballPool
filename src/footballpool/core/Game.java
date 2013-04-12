@@ -46,11 +46,7 @@ public class Game
     {return away;}
     
     public Team getWinner()
-    {
-/*
-        if (!isOver)
-            return new Team("");
-*/        
+    {       
         int homeScore = home.getScore(week);
         int awayScore = away.getScore(week);
         

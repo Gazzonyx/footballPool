@@ -37,6 +37,12 @@ public class Player
     }
     
     
+    public String getFirstName()
+    {return firstName;}
+    
+    public String getLastName()
+    {return lastName;}
+    
     public void setNickName(String nick)
     {nickName = nick;}
     

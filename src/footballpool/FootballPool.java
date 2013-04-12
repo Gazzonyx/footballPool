@@ -1,8 +1,10 @@
 package footballpool;
 
 import footballpool.core.Game;
+import footballpool.core.Player;
 import footballpool.core.Team;
 import footballpool.parser.Parser;
+import java.util.ArrayList;
 
 /**
  *
@@ -11,11 +13,13 @@ import footballpool.parser.Parser;
  */
 public class FootballPool 
 {
-    private int week = 7;
+    private ArrayList<Player> players;
     
     
     public FootballPool()
     {
+        players = new ArrayList();
+        
         try
         {
             for (Game game : Parser.getRegularSeason())
@@ -32,6 +36,18 @@ public class FootballPool
     }
     
     
+    public void addPlayer(Player player)
+    {players.add(player);}
+    
+    public static void printPlayer(Player player)
+    {
+        if (player == null)
+            return;
+        
+        System.out.println("Name: " + player.getFirstName() + " " + player.getLastName());
+        System.out.println("Weekly Points: " + player.getWeeklyPoints());
+        System.out.println("Seasonal Points: " + player.getSeasonalPoints());
+    }
     
     private static void printGame(Game game)
     {
