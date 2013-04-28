@@ -11,28 +11,24 @@ import java.util.ArrayList;
  * @author scottl
  * @version 0.1
  */
-public class FootballPool 
+public class FootballPool implements Testable
 {
     private ArrayList<Player> players;
+    public static final boolean testing = true;
     
     
     public FootballPool()
     {
-        players = new ArrayList();
         
-        try
-        {
-            for (Game game : Parser.getRegularSeason())
-                printGame(game);
-        }
-        catch(Exception e)
-            {e.printStackTrace();}
     }
     
     
     public static void main(String[] args) 
     {
         FootballPool fbp = new FootballPool();
+        
+        if (testing)
+            fbp.doTest();
     }
     
     
@@ -75,4 +71,22 @@ public class FootballPool
     
     private static void printLine()
     {System.out.println("---------------------------------");}
+    
+    public boolean doTest()
+    {
+        ArrayList<Player> players = new ArrayList();
+        
+        try
+        {
+            for (Game game : Parser.getRegularSeason())
+                printGame(game);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+     
+        return true;
+    }
 }

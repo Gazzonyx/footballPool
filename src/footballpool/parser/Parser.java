@@ -4,6 +4,7 @@
  */
 package footballpool.parser;
 
+import footballpool.Testable;
 import footballpool.core.Game;
 import footballpool.core.Team;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import org.jsoup.nodes.Element;
  * @author scottl
  * @version 0.1
  */
-public class Parser 
+public class Parser implements Testable
 {
     private String website;
     private Document webDoc;
@@ -37,6 +38,11 @@ public class Parser
         webDoc = Jsoup.connect(website).get();
     }
     
+    /**
+     * Get every game from this parser's season.
+     * @return Every game for the season, with scores is applicable.
+     * @throws IOException If site can't be reached.
+     */
     static public ArrayList<Game> getRegularSeason() throws IOException
     {
         ArrayList<Game> games = new ArrayList(lastRegularWeekNumber);
@@ -51,9 +57,9 @@ public class Parser
             
             // don't hammer the site
             try
-            {Thread.sleep(parseDelay);}
+                {Thread.sleep(parseDelay);}
             catch(InterruptedException ie)
-            {ie.printStackTrace();}
+                {ie.printStackTrace();}
         }
         
         return games;
@@ -102,9 +108,9 @@ public class Parser
     {
         // NFL uses "--" for the score of a game not started.
         try
-        {return Integer.parseInt(teamWrapper.getElementsByClass("total-score").text());}
+            {return Integer.parseInt(teamWrapper.getElementsByClass("total-score").text());}
         catch(NumberFormatException nfe)
-        {return 0;}
+            {return 0;}
     }
     
     /**
@@ -126,9 +132,22 @@ public class Parser
     }
 
     
-        
+    
     private static void debug(String output)
     {
         System.out.println("DEBUG : " + output + "------------------------\n");
+    }
+    
+    public boolean doTest()
+    {
+        try
+            {Parser.getRegularSeason();}
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
     }
 }
