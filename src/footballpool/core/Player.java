@@ -14,25 +14,29 @@ public class Player
     private String firstName, lastName, emailAddress, nickName;
     private int weeklyPoints = 0;
     private int seasonalPoints = 0;
-    private Map<Integer, Boolean> weeksActive;
+    public final int id;
     
-    
-    public Player(String first, String last)
+    public Player(int id)
     {
-        firstName = first;
-        lastName = last;
-        weeksActive = new HashMap();
+        this.id = id;
     }
     
-    public Player(String first, String last, String nick)
+    public Player(int id, String first, String last)
     {
-        this(first, last);
+        this(id);
+        firstName = first;
+        lastName = last;
+    }
+    
+    public Player(int id, String first, String last, String nick)
+    {
+        this(id, first, last);
         setNickName(nick);
     }
     
-    public Player(String first, String last, String nick, String email)
+    public Player(int id, String first, String last, String nick, String email)
     {
-        this(first, last, nick);
+        this(id, first, last, nick);
         setEmail(email);
     }
     
@@ -54,13 +58,7 @@ public class Player
     
     public String getEmail()
     {return emailAddress;}
-    
-    public void setActive(int week, boolean isActive)
-    {weeksActive.put(week, isActive);}
-    
-    public boolean isActive(int week)
-    {return weeksActive.get(week);}
-    
+
     public void addWeeklyPoints(int points)
     {weeklyPoints += points;}
     

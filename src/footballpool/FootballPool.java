@@ -3,6 +3,7 @@ package footballpool;
 import footballpool.core.Game;
 import footballpool.core.Player;
 import footballpool.core.Team;
+import footballpool.core.database.DatabaseConnector;
 import footballpool.parser.Parser;
 import java.util.ArrayList;
 
@@ -74,6 +75,15 @@ public class FootballPool implements Testable
     
     public boolean doTest()
     {
+        try
+        {
+            DatabaseConnector dc = new DatabaseConnector();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+/*      
         ArrayList<Player> players = new ArrayList();
         
         try
@@ -86,7 +96,7 @@ public class FootballPool implements Testable
             e.printStackTrace();
             return false;
         }
-     
+*/     
         return true;
     }
 }

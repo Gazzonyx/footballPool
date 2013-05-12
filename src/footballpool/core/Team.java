@@ -48,7 +48,7 @@ public class Team
      */
     public static ArrayList<Team> getAllTeams()
     {
-        ArrayList<Team> outgoing = new ArrayList<Team>(32);
+        ArrayList<Team> outgoing = new ArrayList<>(32);
         
         // AFC North
         outgoing.add(new Team("Ravens", Conference.AFC, Division.NORTH));
