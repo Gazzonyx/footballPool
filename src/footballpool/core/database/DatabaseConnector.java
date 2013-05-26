@@ -43,13 +43,17 @@ public class DatabaseConnector implements Testable
         if (emailAddress == null)
             return new Player(-1, "", "");
         
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = statement.executeQuery("SELECT id, firstName, lastName, nickName, FROM players WHERE email='" + emailAddress +"'");
-        Player outgoing = new Player(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("nickName"), emailAddress);
+        ResultSet rs;
+        Player outgoing;
         
-        statement.close();
-        rs.close();
-        
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE))
+        {
+            rs = statement.executeQuery("SELECT id, firstName, lastName, nickName, FROM players WHERE email='" + emailAddress +"'");
+            outgoing = new Player(rs.getInt("id"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("nickName"), emailAddress);
+            if (rs != null)
+                rs.close();
+        }
+
         return outgoing;
     }
     
