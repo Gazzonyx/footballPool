@@ -104,12 +104,7 @@ public class DatabaseConnector implements Testable
         {
             if (getPlayer(email).id != -1)
                 return false;
-        }
-        catch(SQLException ex)
-        {return false;}
             
-        try 
-        {
             PreparedStatement statement;
             synchronized(connectionLock)
             {
