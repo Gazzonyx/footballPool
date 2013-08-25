@@ -84,6 +84,7 @@ public class FootballPool implements Testable
         catch (Exception e)
         {
             e.printStackTrace();
+            return false;
         }
 /*      
         ArrayList<Player> players = new ArrayList();
