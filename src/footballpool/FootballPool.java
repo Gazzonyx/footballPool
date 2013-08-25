@@ -78,6 +78,8 @@ public class FootballPool implements Testable
         try
         {
             DatabaseConnector dc = new DatabaseConnector();
+            dc.doTest();
+            dc.close();
         }
         catch (Exception e)
         {
