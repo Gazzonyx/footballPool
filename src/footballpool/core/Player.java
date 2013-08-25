@@ -1,8 +1,5 @@
 package footballpool.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A player in the football pool.
  * 
