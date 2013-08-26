@@ -6,13 +6,9 @@
  */
 package footballpool.core.database;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import footballpool.Testable;
 import footballpool.core.Player;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +34,7 @@ public class DatabaseConnector implements Testable
     
     public DatabaseConnector(String url, String user, String pass) throws SQLException
     {
-        connection = (Connection)DriverManager.getConnection(url, user, pass);
+        connection = DriverManager.getConnection(url, user, pass);
     }    
     
     
@@ -63,7 +59,7 @@ public class DatabaseConnector implements Testable
            PreparedStatement statement;
            synchronized(connectionLock)
            {
-                statement = (PreparedStatement)connection.prepareStatement(
+                statement = connection.prepareStatement(
                 "SELECT p.`id`, p.`firstName`, p.`lastName`, p.`nickName` FROM players p " +
                 "WHERE p.`email`=?");
            }
@@ -108,7 +104,7 @@ public class DatabaseConnector implements Testable
             PreparedStatement statement;
             synchronized(connectionLock)
             {
-                statement = (PreparedStatement)connection.prepareStatement(
+                statement = connection.prepareStatement(
                     "INSERT INTO players (firstName, lastName, nickName, email)"
                     + "VALUES (?, ?, ?, ?)");
             }
