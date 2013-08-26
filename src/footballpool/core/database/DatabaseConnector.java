@@ -49,7 +49,7 @@ public class DatabaseConnector implements Testable
     public Player getPlayer(String emailAddress) throws SQLException
     {
         if (emailAddress == null)
-            return new Player(-1, "", "");
+            return new Player(-1);
         
         ResultSet rs;
         Player outgoing;
